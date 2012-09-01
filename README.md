@@ -114,7 +114,7 @@ $buf = evbuffer_new();
 ##### *Description*
 
 释放一个libevent缓冲
-##### *Return Value*
+##### *Parameters*
 *buf*: resource. libevent缓冲资源标识
 
 ##evbuffer_add
