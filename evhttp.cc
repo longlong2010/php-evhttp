@@ -59,11 +59,17 @@ typedef struct _php_evhttp_request {
  *
  * Every user visible function must have an entry in evhttp_functions[].
  */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_evhttp_set_gencb, 0, 0, 2)
+	ZEND_ARG_INFO(0, http)
+	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_INFO(1, arg)
+ZEND_END_ARG_INFO()
+
 const zend_function_entry evhttp_functions[] = {
 	PHP_FE(event_init,	NULL)		/* For testing, remove later. */
 	PHP_FE(evhttp_start, NULL)
 	PHP_FE(evhttp_set_timeout, NULL)
-	PHP_FE(evhttp_set_gencb, NULL)
+	PHP_FE(evhttp_set_gencb, arginfo_evhttp_set_gencb)
 	PHP_FE(event_dispatch, NULL)
 	PHP_FE(evhttp_free, NULL)
 	PHP_FE(evbuffer_new, NULL)
@@ -232,7 +238,7 @@ PHP_FUNCTION(evhttp_start) {
 }
 
 static void _php_evhttp_callback(struct evhttp_request* req, void* arg) {
-	zval* args[1];
+	zval* args[2];
 	zval retval;
 	php_evhttp_request* evr;
 
@@ -243,9 +249,13 @@ static void _php_evhttp_callback(struct evhttp_request* req, void* arg) {
 	MAKE_STD_ZVAL(args[0]);
 	ZEND_REGISTER_RESOURCE(args[0], evr, le_evhttp_request);
 
-	if (call_user_function(EG(function_table), NULL, callback->func, &retval, 1, args TSRMLS_CC) == SUCCESS) {
+	args[1] = callback->arg;
+	Z_ADDREF_P(callback->arg);
+
+	if (call_user_function(EG(function_table), NULL, callback->func, &retval, 2, args TSRMLS_CC) == SUCCESS) {
 		zval_dtor(&retval);
 	}
+	zval_ptr_dtor(&(args[0]));
 	zval_ptr_dtor(&(args[0]));
 }
 
@@ -261,7 +271,6 @@ PHP_FUNCTION(evhttp_set_gencb) {
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "rz|z", &zevh, &zcallback, &zarg) == FAILURE) {
 		return;
 	}
-
 	
 	if (!zend_is_callable(zcallback, 0, &func_name TSRMLS_CC)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "'%s' is not a valid callback", func_name);
