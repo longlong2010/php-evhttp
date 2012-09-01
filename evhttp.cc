@@ -67,6 +67,7 @@ const zend_function_entry evhttp_functions[] = {
 	PHP_FE(event_dispatch, NULL)
 	PHP_FE(evhttp_free, NULL)
 	PHP_FE(evbuffer_new, NULL)
+	PHP_FE(evbuffer_free, NULL)
 	PHP_FE(evbuffer_add, NULL)
 	PHP_FE(evhttp_send_reply, NULL)
 	PHP_FE(evhttp_request_uri, NULL)
@@ -299,7 +300,7 @@ PHP_FUNCTION(evhttp_set_gencb) {
 }
 
 PHP_FUNCTION(event_dispatch) {
-	event_dispatch();
+	RETURN_LONG(event_dispatch());
 }
 
 PHP_FUNCTION(evhttp_set_timeout) {
@@ -328,6 +329,15 @@ PHP_FUNCTION(evbuffer_new) {
 	evb = (php_evbuffer*) emalloc(sizeof(php_evbuffer));
 	evb->buf = evbuffer_new();
 	ZEND_REGISTER_RESOURCE(return_value, evb, le_evbuffer);
+}
+
+PHP_FUNCTION(evbuffer_free) {
+	zval* zevb;
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "r", &zevb) == FAILURE) {
+		return;
+	}
+	zend_list_delete(Z_LVAL_P(zevb));
+	RETURN_TRUE;
 }
 
 PHP_FUNCTION(evbuffer_add) {

@@ -110,6 +110,13 @@ evhttp_set_gencb($http, function($req) {
 $buf = evbuffer_new();
 </pre>
 
+##evbuffer_free
+##### *Description*
+
+释放一个libevent缓冲
+##### *Return Value*
+*buf*: resource. libevent缓冲资源标识
+
 ##evbuffer_add
 ##### *Description*
 
@@ -189,11 +196,3 @@ evhttp_set_gencb($http, function($req) {
 
 ##### *Return Value*
 *INT*: 成功返回0，失败返回-1
-
-
-
-
-
-
-
-

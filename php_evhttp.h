@@ -49,6 +49,7 @@ PHP_FUNCTION(evhttp_set_gencb);
 PHP_FUNCTION(event_dispatch);
 PHP_FUNCTION(evhttp_free);
 PHP_FUNCTION(evbuffer_new);
+PHP_FUNCTION(evbuffer_free);
 PHP_FUNCTION(evbuffer_add);
 PHP_FUNCTION(evhttp_send_reply);
 PHP_FUNCTION(evhttp_request_uri);
