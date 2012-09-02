@@ -76,7 +76,7 @@ const zend_function_entry evhttp_functions[] = {
 	PHP_FE(evbuffer_free, NULL)
 	PHP_FE(evbuffer_add, NULL)
 	PHP_FE(evhttp_send_reply, NULL)
-	PHP_FE(evhttp_request_uri, NULL)
+	PHP_FE(evhttp_request_get_uri, NULL)
 	PHP_FE(evhttp_find_header, NULL)
 	PHP_FE(evhttp_add_header, NULL)
 	PHP_FE(evhttp_remove_header, NULL)
@@ -382,7 +382,7 @@ PHP_FUNCTION(evhttp_send_reply) {
 	RETURN_TRUE;
 }
 
-PHP_FUNCTION(evhttp_request_uri) {
+PHP_FUNCTION(evhttp_request_get_uri) {
 	php_evhttp_request* evr;
 	zval* zevr;
 

@@ -52,7 +52,7 @@ PHP_FUNCTION(evbuffer_new);
 PHP_FUNCTION(evbuffer_free);
 PHP_FUNCTION(evbuffer_add);
 PHP_FUNCTION(evhttp_send_reply);
-PHP_FUNCTION(evhttp_request_uri);
+PHP_FUNCTION(evhttp_request_get_uri);
 PHP_FUNCTION(evhttp_find_header);
 PHP_FUNCTION(evhttp_add_header);
 PHP_FUNCTION(evhttp_remove_header);

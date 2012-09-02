@@ -153,7 +153,7 @@ evhttp_set_gencb($http, function($req) {
 })
 </pre>
 
-##evhttp_request_uri
+##evhttp_request_get_uri
 ##### *Description*
 
 获得请求的URI
