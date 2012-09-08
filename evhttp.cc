@@ -226,7 +226,7 @@ PHP_FUNCTION(event_init)
 PHP_FUNCTION(evhttp_start) {
 	const char* addr;
 	int addr_len;
-	int port;
+	long port;
 	php_evhttp* evh;	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sl", &addr, &addr_len, &port) == FAILURE) {
 		return;
