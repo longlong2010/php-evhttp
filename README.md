@@ -92,7 +92,7 @@ $httpd = evhttp_start("0.0.0.0", 80);
 <pre>
 event_init();
 $httpd = evhttp_start("0.0.0.0", 80);
-evhttp_set_gencb($http, function($req) {
+evhttp_set_gencb($httpd, function($req) {
     echo "Hello World!";
 })
 </pre>
