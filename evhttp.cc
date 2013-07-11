@@ -231,9 +231,14 @@ PHP_FUNCTION(evhttp_start) {
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sl", &addr, &addr_len, &port) == FAILURE) {
 		return;
 	}
+	struct evhttp* httpd = evhttp_start(addr, port);
+	if (httpd == NULL) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "start server binding to %s:%d failed", addr, port);
+		RETURN_FALSE;
+	}
 	evh = (php_evhttp*) emalloc(sizeof(php_evhttp));
 	evh->callback = NULL;
-	evh->httpd = evhttp_start(addr, port);
+	evh->httpd = httpd;
 	ZEND_REGISTER_RESOURCE(return_value, evh, le_evhttp);
 }
 
