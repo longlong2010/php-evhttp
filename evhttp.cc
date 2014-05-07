@@ -233,7 +233,7 @@ PHP_FUNCTION(evhttp_start) {
 	}
 	struct evhttp* httpd = evhttp_start(addr, port);
 	if (httpd == NULL) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "start server binding to %s:%d failed", addr, port);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "start server binding to %s:%ld failed", addr, port);
 		RETURN_FALSE;
 	}
 	evh = (php_evhttp*) emalloc(sizeof(php_evhttp));
